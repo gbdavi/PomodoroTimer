@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="icon" type="image/png" href="./tomatoIcon.png">
+	<title id="titleDisplay">TomatoTimer</title>
+	<script src="./timer_fixes/HackTimer.js"></script>
+	<script src="./timer_fixes/HackTimerWorker.js"></script>
+	<link rel="stylesheet" type="text/css" href="./styles.css">
+
+	<audio id="beep">
+		<source src="./beep_effect.mp3" type="audio/mpeg">
+	</audio>
+</head>
+<body>
+	<div class="headerContainer">
+		<ul class="headerAlign">
+			<div class="titleContainer">
+				<h2>TomatoTimer</h2>
+			</div>
+			<div class="optionsContainer">
+				<ul class="optionsAlign">	
+					<li><input type="button" class="rightAlign" name="" value="Tweet about us!"></li>
+					<li><input type="button" class="rightAlign" name="" value="Settings"></li>
+					<li><input type="button" class="rightAlign" name="" value="FAQ"></li>
+					<li><input type="button" class="rightAlign" name="" value="Log"></li>
+				</ul>
+			</div>
+		</ul>
+	</div>
+	<div class="row">
+		<ul class="buttonsGroup">
+			<input type="button" class="button" id="idPomodoro" name="Pomodoro" value="Pomodoro" onclick="pomodoro()">
+			<input type="button" class="button" id="idShortBreak" name="ShortBreak" value="Short Break" onclick="shortBreak()">
+			<input type="button" class="button" id="idLongBreak" name="LongBreak" value="Long Break" onclick="longBreak()">
+		</ul>
+	</div>
+	<br>
+	<div class="row">
+		<h1 id="display"></h1>
+	</div>
+	<br>
+	<br>
+	<br>
+	<div class="row">
+		<div class="buttonsGroup">
+			<div class="mainButtonsAlign">
+				<div class="buttonPadding">
+					<input type="button" class="startButton functionButtonStyle" name="Start" value="Start" onclick="turnOn()">
+				</div>
+				<div class="buttonPadding">
+					<input type="button" class="stopButton functionButtonStyle" name="Stop" value="Stop" onclick="turnOff()">
+				</div>
+				<div class="buttonPadding">
+					<input type="button" class="resetButton functionButtonStyle" name="Reset" value="Reset" onclick="reset()">
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="./scripts.js"></script>
+</body>
+</html>

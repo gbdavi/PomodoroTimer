@@ -1,0 +1,161 @@
+body{
+	margin: 0;
+	padding: 0;
+	background-color: white;
+}
+
+.headerContainer{
+	background-color: #f2f2f2;
+	border: solid 1px #e6e6e6;
+	padding: 20px;
+	margin: 0 0 22px 0;
+}
+
+.row{
+	width: 940px;
+	max-width: 100%;
+	min-width: 768px;
+	margin: 0 auto;
+}
+
+.headerAlign{
+	width: 940px;
+	display: flex;
+	margin: 0 auto;
+	padding: 0;
+}
+
+.titleContainer{
+	width: 25%;
+	padding: 0 15px 0 15px;
+}
+
+.titleContainer h2{
+	font-size: 37px;
+	font-family: "Helvetica";
+	color: #222222;
+	margin: 14px 0 14px 0;
+}
+
+.optionsContainer{
+	width: 75%;
+	padding: 0 15px 0 15px;
+}
+
+.optionsContainer input{
+	color: #e6e6e6;
+	background-color: #4d4d4d;
+	border: solid 1px #333333;
+	text-decoration: none;
+	padding: 0 20px 0 20px;
+}
+
+.optionsContainer input:hover{
+	background-color: #333333;
+}
+
+.optionsAlign{
+	margin-top: 20px;
+	margin-bottom: auto;
+}
+
+.optionsAlign li{
+	display: block;
+}
+
+.optionsAlign li input{
+	font-size: 14px;
+	font-weight: normal;
+	font-family: sans-serif;
+	padding: 0 20px;
+	line-height: 38px;
+}
+
+.rightAlign{
+	float: right;
+}
+
+.centerAlign{
+	margin: 0 auto 0 auto;
+}
+
+.button{
+	width: 100%;
+	background-color: #2ba6cb;
+	border: 1px solid #1e728c;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: bold;
+	color: white;
+	padding: 10px 20px 11px;
+}
+
+.button:hover{
+	background-color: #2284a1;
+}
+
+.button.active{
+	background-color: #2284a1;
+}
+
+.buttonsGroup{
+	display: flex;
+	width: 83.3%;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0;
+}
+
+.mainButtonsAlign{
+	margin: 0 auto 0 auto;
+	display: flex;
+}
+
+.row h1{
+	text-align: center;
+	font-weight: bold;
+	font-size: 95px;
+	font-family: sans-serif;
+	color: #222222;
+	margin:0;
+}
+
+.functionButtonStyle{
+	color: white;
+	font-size: 17px;
+	font-weight: bold;
+	padding: 15px 30px 16px;
+	cursor: pointer;
+}
+
+.buttonPadding{
+	padding: 0 15px 0 15px;
+}
+
+.startButton{
+	background-color: #5da423;
+	border: 1px solid #396516;
+}
+
+.startButton:hover{
+	background-color: #457a1a;
+}
+
+.stopButton{
+	background-color: #c60f13;
+	border: 1px solid #7f0a0c;
+}
+
+.stopButton:hover{
+ background-color: #970b0e;
+}
+
+.resetButton{
+	background-color: #e9e9e9;
+	border: 1px solid #c3c3c3;
+	color: #1d1d1d;
+}
+
+.resetButton:hover{
+	background-color: #d0d0d0;
+}
