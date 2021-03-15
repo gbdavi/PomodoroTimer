@@ -201,6 +201,7 @@ function longBreak(){
 	(timerVerify());
 }
 
+
 //Corrigir bugs (mais dificil kkk)
 //Criar a aba settings
 //Adicionar notificação ao zerar o tempo(adicionar opção no painel de configuração).
