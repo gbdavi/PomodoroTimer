@@ -204,4 +204,4 @@ function longBreak(){
 //Corrigir bugs (mais dificil kkk)
 //Criar a aba settings
 //Adicionar notificação ao zerar o tempo(adicionar opção no painel de configuração).
-//Salvar no gitHub.
+//Ir salvando as versões no gitHub.
