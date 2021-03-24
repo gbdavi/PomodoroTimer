@@ -8,9 +8,12 @@
 	<script src="./timer_fixes/HackTimerWorker.js"></script>
 	<link rel="stylesheet" type="text/css" href="./styles.css">
 
-	<audio id="beep">
-		<source src="./beep_effect.mp3" type="audio/mpeg">
-	</audio>
+	<audio id="Alarm80s"><source src="./sounds/80sAlarm.mp3" type="audio/mpeg"></audio>
+	<audio id="alarmclock"><source src="./sounds/alarmclock.mp3" type="audio/mpeg"></audio>
+	<audio id="alarmwatch"><source src="./sounds/alarmwatch.mp3" type="audio/mpeg"></audio>
+	<audio id="ding"><source src="./sounds/ding.mp3" type="audio/mpeg"></audio>
+	<audio id="doorbell"><source src="./sounds/doorbell.mp3" type="audio/mpeg"></audio>
+	
 </head>
 <body>
 	<div class="headerContainer">
@@ -20,8 +23,7 @@
 			</div>
 			<div class="optionsContainer">
 				<ul class="optionsAlign">	
-					<li><input type="button" class="rightAlign" name="" value="Tweet about us!"></li>
-					<li><input type="button" class="rightAlign" name="" value="Settings"></li>
+					<li><img src="settings.ico" width="28px" height="28px" class="rightAlign" onclick="settingsContainer()"></li>
 					<li><input type="button" class="rightAlign" name="" value="FAQ"></li>
 					<li><input type="button" class="rightAlign" name="" value="Log"></li>
 				</ul>
@@ -57,6 +59,72 @@
 			</div>
 		</div>
 	</div>
+	<section>
+		<!-- ------ settingsBoard ------ -->
+		<div class="overlay-box">
+			<div class="content-box">
+				<h2>Options</h2>
+				<h3>User preferences</h3>
+				<p>
+					<input type="checkbox" name="timerIndication" id="chkbox1" checked="">
+					<label for="timerIndication">Timer indication in title?</label>
+				</p>
+				<p>
+					<input type="checkbox" name="checkboxNotifications" id="chkbox2" checked="">
+					<label for="checkboxNotifications" >Browser notifications?</label>
+				</p>
+				<p>
+					<input type="checkbox" name="checkboxAutoStartSequence" id="chkbox3">
+					<label for="checkboxAutoStartSequence">Auto start pomodoros and breaks?</label>
+				</p>
+				<p>
+					<label for="dailyGoal">Pomodoro goal for the day </label>
+					<input type="number" class="smallInput" name="dailyGoal" step="1" min="1" value="1" id="inputNumber1">	
+				</p>
+				<h3>Select Sound</h3>
+				<select size="5" id="option1">
+					<option value="Alarm80s">80s Alarm</option>
+					<option value="alarmclock">Alarm Clock</option>
+					<option value="alarmwatch" selected="">Wristwatch alarm</option>
+					<option value="ding">Elevator Ding</option>
+					<option value="doorbell">Door Bell</option>
+				</select>
+				<h3>Select Volume</h3>
+				<select size="5" id="option2">
+					<option value="0">Mute</option>
+					<option value="0.25">25%</option>
+					<option value="0.50" selected="">50%</option>
+					<option value="0.75">75%</option>
+					<option value="1.0">100%</option>
+				</select>
+				<h3>Set Custom Times <small>(in minutes)</small></h3>
+				<div class="columnFlex">
+					<div class="columnBlock">
+						<label for="pomodoro">Pomodoro</label>
+						<br>
+						<input type="number" name="pomodoro" min="1" value="25" id="inputNumber2">
+					</div>
+					<div class="columnBlock">
+						<label for="shortBreak">Short Break</label>
+						<br>
+						<input type="number" name="shortBreak" min="1" value="5" id="inputNumber3">
+					</div>
+					<div class="columnBlock">
+						<label for="longBreak">Long Break</label>
+						<br>
+						<input type="number" name="longBreak" min="1" value="10" id="inputNumber4">
+					</div>
+				</div>
+				<p></p>
+				<div class="inputButton">
+					<input type="button" name="save" value="Save" onclick="setConfigs()">
+					<input type="button" name="reset" value="Reset" onclick="resetConfigs()">
+					<input type="button" name="soundtest" value="Sound Test" onclick="soundTest()">
+				</div>
+			</div>
+			<div class="content-outside" onclick="settingsContainer()"></div>
+		</div>
+	</section>
 	<script src="./scripts.js"></script>
 </body>
 </html>

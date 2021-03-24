@@ -20,6 +20,8 @@ body{
 
 .headerAlign{
 	width: 940px;
+	max-width: 100%;
+	min-width: 768px;
 	display: flex;
 	margin: 0 auto;
 	padding: 0;
@@ -54,6 +56,11 @@ body{
 	background-color: #333333;
 }
 
+.optionsContainer img{
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
 .optionsAlign{
 	margin-top: 20px;
 	margin-bottom: auto;
@@ -61,6 +68,14 @@ body{
 
 .optionsAlign li{
 	display: block;
+}
+
+.optionsAlign li img{
+	padding: 6px 10px 6px 10px;
+}
+
+.optionsAlign li img:hover{
+	background-color: rgb(0, 0, 0, 0.1);
 }
 
 .optionsAlign li input{
@@ -158,4 +173,126 @@ body{
 
 .resetButton:hover{
 	background-color: #d0d0d0;
+}
+
+/* Overlay and config styles */
+
+.overlay-box{
+	display: none;
+	position: fixed;
+
+ 	width: 100%;
+ 	height: 100%;
+
+ 	background-color: rgba(0,0,0,0.3);
+ 	top: 0;
+ 	align-items: center;
+ 	justify-content: center;
+ 	overflow-y: scroll;	
+}
+
+.overlay-box.active{
+	display: flex;
+}
+
+.content-outside{
+	width: 100%;
+	height: 100%;
+	z-index: 4;
+	position: fixed;
+	cursor: pointer;
+}
+
+.content-box{
+	margin-top: 300px;
+	margin-bottom: 0;
+	width: 36%;
+	height: auto;
+	background-color: white;
+	z-index: 5;
+	padding: 30px;
+}
+
+.content-box h2{
+	font-size: 37px;
+	font-family: sans-serif;
+	color: #222222;
+	margin: 0;
+	margin-bottom: 14px;
+}
+
+.content-box h3{
+	font-size: 27px;
+	font-family: sans-serif;
+	color: #222222;
+	margin-top: 0;
+	margin-bottom: 14px;
+}
+
+.content-box p{
+	font-size: 14px;
+	font-family: sans-serif;
+	margin-top: 0;
+	margin-bottom: 17px;
+}
+
+.content-box small{
+	font-size: 60%;
+	color: #6f6f6f;
+}
+
+.content-box select{
+	width: 100%;
+	margin-bottom: 14px;
+	cursor: pointer;
+}
+
+.content-box .columnFlex{
+	display: flex;
+	margin-bottom: 10px;
+}
+
+.content-box .columnFlex .columnBlock{
+	display: block;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.content-box .inputButton input{
+	width: auto;
+	padding: 10px 20px 11px;
+	background-color: #2ba6cd;
+	color: white;
+	border: 1px solid #1e728c;
+	font-size: 14px;
+	font-family: sans-serif;
+	line-height: 1.1;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.columnBlock label{
+	font-size: 14px;
+	font-family: sans-serif;
+	color: #4d4d4d;
+}
+
+.columnBlock input{
+	width: 100%;
+	padding: 6px;
+	border: 1px solid #cccccc;
+	color: rgb(0, 0, 0, 0.75);
+	margin-bottom: 12px;
+}
+
+.smallInput{
+	max-width: 50px;
+	width: 36px;
+	padding: 6px;
+	font-size: 14px;
+}
+
+
+@media (max-width: 800px){
+
 }
