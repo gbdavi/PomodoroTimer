@@ -23,9 +23,9 @@
 			</div>
 			<div class="optionsContainer">
 				<ul class="optionsAlign">	
-					<li><img src="settings.ico" width="28px" height="28px" class="rightAlign" onclick="settingsContainer()"></li>
-					<li><input type="button" class="rightAlign" name="" value="FAQ"></li>
-					<li><input type="button" class="rightAlign" name="" value="Log"></li>
+					<li><img src="settings.ico" width="28px" height="28px" class="rightAlign" onclick="activeSettingsContainer()"></li>
+					<li><input type="button" class="rightAlign" name="" value="FAQ" onclick="faqContainer()"></li>
+					<li><input type="button" class="rightAlign" name="" value="Log" onclick="logContainer()"></li>
 				</ul>
 			</div>
 		</ul>
@@ -59,10 +59,11 @@
 			</div>
 		</div>
 	</div>
+	<!-- ------ settingsBoard ------ -->
 	<section>
-		<!-- ------ settingsBoard ------ -->
 		<div class="overlay-box">
 			<div class="content-box">
+				<p class="closeContainer rightAlign" onclick="settingsContainer()">x</p>
 				<h2>Options</h2>
 				<h3>User preferences</h3>
 				<p>
@@ -125,6 +126,96 @@
 			<div class="content-outside" onclick="settingsContainer()"></div>
 		</div>
 	</section>
-	<script src="./scripts.js"></script>
+	<!-- ------ faqBoard ------ -->
+	<section>
+		<div class="overlay-box2">
+			<div class="content-box2">
+				<p class="closeContainer rightAlign" onclick="closeFaqContainer()">x</p>
+				<p>Q. What is Pomodoro Technique?</p>
+				<p>A. The time management technique created by Francesco Cirillo for a more productive way to work and study.</p>
+				<ul>
+					<li>Decide on the task at hand</li>
+					<li>Set the <strong>Pomodoro</strong> (timer) to 25 minutes</li>
+					<li>Work on the task until the timer expires; Record with an X</li>
+					<li>Take a <strong>Short Break</strong> (5 minutes)</li>
+					<li>Every four "pomodoros", take a <strong>Long Break</strong> (10 minutes)</li>
+				</ul>
+				<p>Q. What is TomatoTimer?</p>
+				<p>A. It's an easy to use, flexible Pomodoro Technique timer. It was inspired by Tomatoi.st and it uses jQuery and HTML5 features like Desktop Notifications, Audio API and Local Storage instead of relying on Adobe Flash and other such technologies.</p>
+				<p>Q. Why use TomatoTimer?</p>
+				<p>A. Here's why:</p>
+				<ul>
+					<li>Clean and Crisp interface with a Mobile friendly layout.</li>
+					<li>Ability to Pause or Reset the timer intervals.</li>
+					<li>Audio notifications at the end of a timer period.</li>
+					<li>Desktop notifications. (Only supported in Google Chrome)</li>
+					<li>Keyboard shortcuts.</li>
+					<li>Ability to change the alert sound + volume via Settings</li>
+					<li>Custom Timer Intervals</li>
+					<li>A history of your activity. (Coming soon.)</li>
+				</ul>
+				<p>Q. I've got some feedback. How do I get in touch with you?</p>
+				<p>A. <a href="mailto:davigrammbauer@gmail.com">Email me</a></p>
+				<p>Receive early access to our new platform and news about feature updates to TomatoTimer! Signup for our mailing list: <a href="">Sign up!</a></p>
+			</div>
+			<div class="content-outside" onclick="closeFaqContainer()"></div>
+		</div>
+	</section>
+	<!-- ------ logBoard ------ -->
+	<section>
+		<div class="overlay-box3">
+			<div class="content-box3">
+				<p class="closeContainer rightAlign" onclick="closeLogContainer()">x</p>
+				<h2>Time log!</h2>
+				<div class="pomoGoals margin">
+					<p>Pomodoro goal tracker:</p>
+					<div class="pomoGoalsContainer">
+						<div class="pomoGoalsCircle full"></div>
+						<div class="pomoGoalsCircle"></div>
+						<div class="pomoGoalsCircle"></div>
+						<div class="pomoGoalsCircle"></div>
+						<div class="pomoGoalsCircle"></div>
+						<div class="pomoGoalsCircle"></div>
+						<div class="pomoGoalsCircle"></div>
+						<div class="pomoGoalsCircle"></div>
+						<div class="pomoGoalsCircle"></div>
+						<div class="pomoGoalsCircle"></div>
+						<div class="pomoGoalsCircle"></div>
+						<div class="pomoGoalsCircle"></div>
+						<div class="pomoGoalsCircle"></div>
+						<div class="pomoGoalsCircle"></div>
+						<div class="pomoGoalsCircle"></div>
+						<div class="pomoGoalsCircle"></div>
+						<div class="pomoGoalsCircle"></div>
+						<div class="pomoGoalsCircle"></div>
+						<div class="pomoGoalsCircle"></div>
+						<div class="pomoGoalsCircle"></div>
+						<div class="pomoGoalsCircle"></div>
+					</div>
+				</div>
+				<div class="margin">
+					<input type="button" value="Clear pomodoro's done today" class="button">
+				</div>
+				<table class="logTable">
+					<tbody>
+						<tr>
+							<th>Session</th>
+							<th>Start time</th>
+							<th>End time</th>
+							<th>Description</th>
+						</tr>
+						<tr>
+							<td>Pomodoro</td>
+							<td>Wednesday, April 7th 2021, 3:46:00 pm</td>
+							<td>Wednesday, April 7th 2021, 3:47:00 pm</td>
+							<td><input type="text" name=""></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="content-outside" onclick="closeLogContainer()"></div>
+		</div>
+	</section>
+	<script src="./scripts.js" type="text/javascript" language="javascript"></script>
 </body>
 </html>

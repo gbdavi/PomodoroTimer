@@ -2,6 +2,8 @@ body{
 	margin: 0;
 	padding: 0;
 	background-color: white;
+	overflow-y: auto;
+	font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 }
 
 .headerContainer{
@@ -34,7 +36,6 @@ body{
 
 .titleContainer h2{
 	font-size: 37px;
-	font-family: "Helvetica";
 	color: #222222;
 	margin: 14px 0 14px 0;
 }
@@ -177,45 +178,104 @@ body{
 
 /* Overlay and config styles */
 
-.overlay-box{
+.overlay-box,
+.overlay-box2,
+.overlay-box3{
 	display: none;
-	position: fixed;
+	position: absolute;
 
  	width: 100%;
- 	height: 100%;
-
+ 	min-height: 100%;
+ 	height: auto;
  	background-color: rgba(0,0,0,0.3);
  	top: 0;
  	align-items: center;
- 	justify-content: center;
- 	overflow-y: scroll;	
+ 	justify-content: center;	
 }
 
-.overlay-box.active{
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+.overlay-box.active,
+.overlay-box2.active,
+.overlay-box3.active{
 	display: flex;
 }
 
 .content-outside{
 	width: 100%;
 	height: 100%;
+	top: 0;
 	z-index: 4;
 	position: fixed;
 	cursor: pointer;
 }
 
-.content-box{
-	margin-top: 300px;
-	margin-bottom: 0;
+.content-box,
+.content-box2,
+.content-box3{
+	margin-top: 6rem;
+	margin-block-start: -120%;
+	transition: 0.7s;
+	margin-bottom: auto;
+	min-width: 335px;
 	width: 36%;
-	height: auto;
+	height: 200%;
 	background-color: white;
 	z-index: 5;
 	padding: 30px;
 }
 
+.content-box3{
+	width: 55%;
+}
+
+.content-box.transition,
+.content-box2.transition,
+.content-box3.transition{
+	transition: 0.5s;
+	transition-timing-function: linear;
+	margin-block-start: 10%;
+}
+
+.content-box .closeContainer,
+.content-box2 .closeContainer,
+.content-box3 .closeContainer {
+	cursor: pointer;
+	color: #aaa;
+	margin-top: -30px ;
+	margin-right: -20px;
+	font-weight: bold;
+	font-family: cursive;
+	text-shadow: 0 -1px 1px rgb(0 0 0 / 60%);
+	font-size: 18px;
+}
+
+.content-box3 h2{
+	font-size: 37px;
+	color: #222222;
+	font-weight: bold;
+	font-style: normal;
+}
+
 .content-box h2{
 	font-size: 37px;
-	font-family: sans-serif;
 	color: #222222;
 	margin: 0;
 	margin-bottom: 14px;
@@ -223,7 +283,6 @@ body{
 
 .content-box h3{
 	font-size: 27px;
-	font-family: sans-serif;
 	color: #222222;
 	margin-top: 0;
 	margin-bottom: 14px;
@@ -231,7 +290,6 @@ body{
 
 .content-box p{
 	font-size: 14px;
-	font-family: sans-serif;
 	margin-top: 0;
 	margin-bottom: 17px;
 }
@@ -265,15 +323,22 @@ body{
 	color: white;
 	border: 1px solid #1e728c;
 	font-size: 14px;
-	font-family: sans-serif;
 	line-height: 1.1;
 	font-weight: bold;
 	cursor: pointer;
 }
 
+.content-box2 p,
+.content-box2 ul li{
+	line-height: 1.6;
+	font-size: 14px;
+	font-weight: normal;
+	font-style: normal;
+	color: #222222;
+}
+
 .columnBlock label{
 	font-size: 14px;
-	font-family: sans-serif;
 	color: #4d4d4d;
 }
 
@@ -292,6 +357,79 @@ body{
 	font-size: 14px;
 }
 
+.pomoGoals{
+	display: inline-flex;
+}
+
+.pomoGoals p{
+	margin-right: 16px;
+}
+
+.pomoGoalsContainer{
+	display: block;
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+.pomoGoalsCircle{
+	width: 20px;
+	height: 20px;
+	border: 1px solid green;
+	border-radius: 50%;
+	background: white;
+	display: inline-block;
+	margin-right: 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.pomoGoalsCircle.full{
+	background: green;
+}
+
+.logTable{
+	height: auto;
+	width: 100%;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+}
+
+.logTable tr{
+	display: table-row;
+	background: #f9f9f9;
+}
+
+.logTable th{
+	display: table-cell;
+	font-weight: bold;
+	vertical-align: middle;
+	font-size: 14px;
+	background: white;
+	}
+
+.logTable td{
+	display: table-cell;
+	vertical-align: middle;
+	padding: 9px 10px;
+	font-size: 14px;
+	color: #333;
+	border: none;
+}
+
+.logTable input{
+	display: block;
+	width: 90%;
+	height: 32px;
+	margin: 0;
+	padding: 6px;
+	border: 1px solid #cccccc;
+	font-size: 14px;
+
+}
+
+.margin{
+	margin-bottom: 24px;
+}
 
 @media (max-width: 800px){
 

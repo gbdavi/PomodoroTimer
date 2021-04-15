@@ -1,6 +1,6 @@
 // ----- Configs -----
 var timerIndication,
-notificacions,
+notifications,
 autoStartSequence,
 dailyGoal,
 soundOption,
@@ -9,6 +9,8 @@ pomodoroTime,
 shortBreakTime,
 longBreakTime;
 
+
+//Armazenamento das config no navegador
 const Storage = {
 	get(key){
 		return JSON.parse(localStorage.getItem(key))
@@ -19,13 +21,115 @@ const Storage = {
 	}
 }
 
+// ----- Teste de injeção de log -----
+
+var sessionLog,
+startTimeLog,
+endTimeLog
+
+const inputLog = {
+	sessionRequest() {
+		if (pomodoroTurn == 1) {
+			sessionLog = "Pomodoro"
+		} else {
+			if (shortBreakTurn == 1) {
+				sessionLog = "Short Break"
+			} else {
+				if (longBreakTurn == 1) {
+					sessionLog = "Long Break"
+				}
+			}
+		}
+	},
+
+
+	timerLogStart() {
+		splittedDate = Date().split(' ')
+		dayWeek = splittedDate[0] == 'Sun' ? 'Sunday' : splittedDate[0] == 'Mon' ? 'Monday' : splittedDate[0] == 'Tue' ? 'Tuesday' : splittedDate[0] == 'Wed' ? 'Wednesday' : splittedDate[0] == 'Thu' ? 'Thursday' : splittedDate[0] == 'Fri' ? 'Friday' : 'Saturday'
+		ordinal = splittedDate[2] == 1 ? 'st' : splittedDate[2] == 2 ? 'nd' : splittedDate[2] == 3 ? 'rd' : splittedDate[2] >= 4 ? 'th' : '';
+		ampm = splittedDate[4].split(':')[0] >= 12 ? ' pm' : ' am'
+		startTimeLog = dayWeek + ', ' + splittedDate[1] + ' ' + splittedDate[2] + ordinal + ' ' + splittedDate[3] + ', ' + splittedDate[4] + ampm;
+	},
+
+	timerLogEnd() {	
+		splittedDate = Date().split(' ')
+		dayWeek = splittedDate[0] == 'Sun' ? 'Sunday' : splittedDate[0] == 'Mon' ? 'Monday' : splittedDate[0] == 'Tue' ? 'Tuesday' : splittedDate[0] == 'Wed' ? 'Wednesday' : splittedDate[0] == 'Thu' ? 'Thursday' : splittedDate[0] == 'Fri' ? 'Friday' : 'Saturday'
+		ordinal = splittedDate[2] == 1 ? 'st' : splittedDate[2] == 2 ? 'nd' : splittedDate[2] == 3 ? 'rd' : splittedDate[2] >= 4 ? 'th' : '';
+		ampm = splittedDate[4].split(':')[0] >= 12 ? ' pm' : ' am'
+		endTimeLog = dayWeek + ', ' + splittedDate[1] + ' ' + splittedDate[2] + ordinal + ' ' + splittedDate[3] + ', ' + splittedDate[4] + ampm;
+	}
+}
+
+var logItems = Storage.get('logs')
+var newLog,
+arrayLogs
+
+const managementStorageLog = {
+	addLog(){
+		arrayLogs = Storage.get('logs')
+
+		if (arrayLogs == undefined) {
+			arrayLogs = []
+		}
+
+			newLog = {Session: sessionLog, Starts: startTimeLog, Ends: endTimeLog}
+
+			arrayLogs.push(newLog)
+			Storage.set('logs', arrayLogs)
+
+			logItems = Storage.get('logs')
+			app.refreshLogs()
+	},
+
+	cleanLog(){
+		arrayLogs = []
+		Storage.set('logs', arrayLogs)
+	}
+}
+
+
+var logContainerLocate = document.querySelector('.logTable tbody')
+
+const app = {
+
+	createLogs(i){
+		const html = `
+			<td>${logItems[i].Session}</td>
+			<td>${logItems[i].Starts}</td>
+			<td>${logItems[i].Ends}</td>
+			<td><input type="text" name=""></td>
+		`
+
+		const tr = document.createElement('tr')
+			tr.innerHTML = html
+			logContainerLocate.appendChild(tr)
+	},
+
+	refreshLogs(){
+		logContainerLocate.innerHTML = `
+			<th>Session</th>
+			<th>Start time</th>
+			<th>End time</th>
+			<th>Description</th>
+		`;
+		for (i=0; i < logItems.length; i++){
+			app.createLogs(i)
+		}
+	}
+}
+
+if (logItems != null) {
+	app.refreshLogs()
+}
+
+//Definir Configurações
 function setConfigs() {
 
 	timerIndication = document.getElementById('chkbox1').checked;
 	Storage.set('timerIndication', timerIndication);
 
-	notificacions = document.getElementById('chkbox2').checked;
-	Storage.set('notificacions', notificacions);
+	notifications = document.getElementById('chkbox2').checked;
+	Storage.set('notifications', notifications);
 
 	autoStartSequence = document.getElementById('chkbox3').checked;	
 	Storage.set('autoStartSequence', autoStartSequence);
@@ -56,7 +160,30 @@ function setConfigs() {
 
 if (Storage.get('userConfig') != "ready"){
 	(setConfigs());
+	document.querySelector('.overlay-box').classList.toggle('active');
 }
+//----- Faq -----
+function faqContainer(){
+	document.querySelector('.overlay-box2').classList.toggle('active');
+	setTimeout(function() {document.querySelector('.content-box2').classList.toggle('transition');}, 0)
+}
+
+function closeFaqContainer(){
+	document.querySelector('.content-box2').classList.toggle('transition')
+	setTimeout(function() {document.querySelector('.overlay-box2').classList.toggle('active');}, 700);
+}
+
+//----- Log -----
+function logContainer(){
+	document.querySelector('.overlay-box3').classList.toggle('active');
+	setTimeout(function() {document.querySelector('.content-box3').classList.toggle('transition');}, 0)
+}
+
+function closeLogContainer(){
+	document.querySelector('.content-box3').classList.toggle('transition')
+	setTimeout(function() {document.querySelector('.overlay-box3').classList.toggle('active');}, 700);
+}
+
 
 function resetConfigs() {
 	document.getElementById('chkbox1').checked = true;
@@ -79,7 +206,7 @@ function resetConfigs() {
 
 	(setConfigs());
 }
-// ----- Teste de Audio -----
+// ----- Testar Alarme -----
 
 var soundSelectedTest;
 var soundFileTest;
@@ -129,6 +256,39 @@ function alarm(){
 	let soundFile = document.getElementById(soundSelected);
 	soundFile.volume = volumeOption;
 	soundFile.play();
+}
+
+// ----- Notificacoes -----
+
+function notificationPermissionRequest(){
+	if (Storage.get('notifications') == true) {
+		console.log('notifications is allowed');
+		if ("Notification" in window == true) {
+			console.log('Notification is supported');
+			if (Notification.permission == 'default') {
+				console.log('notifications is default')
+				Notification.requestPermission().then(function (permission) {
+    			console.log(permission);
+    			}
+    			)
+			}
+		}
+	}
+}
+(notificationPermissionRequest());
+
+function browserNotificationPomodoro(){
+	let title = 'Have a break!'
+	let body = '00:00'
+	let icon = './tomatoIcon.png'
+	let noti = new Notification(title, {body,icon})
+}
+
+function browserNotificationBreak(){
+	title = 'Your time is up!'
+	body = '00:00'
+	icon = './tomatoIcon.png'
+	noti = new Notification(title, {body,icon})
 }
 
 // ---------------------------------------------------
@@ -231,12 +391,18 @@ function numbersTime() {
 	}
 }
 
-function settingsContainer() {
+function activeSettingsContainer(){
 	document.querySelector('.overlay-box').classList.toggle('active');
+	setTimeout(function() {document.querySelector('.content-box').classList.toggle('transition')}, 0);
+}
+
+function settingsContainer() {
+	document.querySelector('.content-box').classList.toggle('transition')
+	setTimeout(function() {document.querySelector('.overlay-box').classList.toggle('active');}, 700);
 
 	document.getElementById('chkbox1').checked = Storage.get('timerIndication');
 
-	document.getElementById('chkbox2').checked = Storage.get('notificacions');
+	document.getElementById('chkbox2').checked = Storage.get('notifications');
 
 	document.getElementById('chkbox3').checked = Storage.get('autoStartSequence');
 
@@ -279,12 +445,21 @@ function  timer() {
 					document.getElementById('titleDisplay').innerHTML = "TomatoTimer";
 				}
 
-				(timer());				
+				(timer());	
 			}
 			else {
 				document.getElementById('titleDisplay').innerHTML = "TomatoTimer";
 				(alarm());
 				turn = 0;
+				if (pomodoroTurn == 1){
+					(browserNotificationPomodoro())
+				}
+				if (shortBreakTurn == 1 || longBreakTurn ==1){
+					(browserNotificationBreak())
+				}
+				if (Storage.get('autoStartSequence') == true) {
+					timerCycle()
+				}
 			}
 		}
 	}
@@ -363,10 +538,52 @@ function longBreak(){
 	(timerVerify());
 }
 
+var countTimerCycle = 0;
+var cycleConfig = 0;
+var countLoopCycle;
+
+function timerCycle() {
+	countTimerCycle++
+	if (cycleConfig == 0) {
+		if (pomodoroTurn == 1) {
+			countTimerCycle = 2
+			cycleConfig = 1
+		}
+		if (shortBreakTurn == 1 || longBreakTurn == 1) {
+			countTimerCycle = 1
+			cycleConfig = 1
+		}
+		}
+	if (countTimerCycle == 1 || countTimerCycle == 3 || countTimerCycle == 5 || countTimerCycle == 7) {
+		console.log('pomodoro')
+		pomodoro()
+	}
+	if (countTimerCycle == 2 || countTimerCycle == 4 || countTimerCycle == 6) {
+		console.log('shortBreak')
+		shortBreak()
+	}
+	if (countTimerCycle == 8) {
+		console.log('longBreak')
+		longBreak()
+		countTimerCycle = 0
+	}
+}
+
+
+
+
 
 //Corrigir bugs (mais dificil kkk).
-//Fazer o ciclo do Pomodoro com as pausas certas (easy)
-//Fazer log das execuções dos tempos com data de inicio, finalização e quantidades de ciclos
-//Adicionar notificação ao zerar o tempo(adicionar opção no painel de configuração).
+
+//Adicionar atalho de teclado
+
+//Fazer a contagem se a meta foi alcançada (obs: cada pomodoro executado equivale a 1 dailyGoal e fazer depois de terminar o log)
+
+//Arrumar CSS do log(caixa de descrição passando da tela)
+
+//Inserir o código para marcação dos inputs 
+
+//Possivel modificação de design https://tomatoi.st/1j8pssa
+
 //Ir salvando as versões no gitHub (O problema é não esquecer de fazer isso).
 //Fazer estilo para mobile (Mais chato)
