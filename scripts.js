@@ -21,7 +21,8 @@ const Storage = {
 	}
 }
 
-// ----- Teste de injeção de log -----
+
+// ----- Injeção de log -----
 
 var sessionLog,
 startTimeLog,
@@ -43,26 +44,22 @@ const inputLog = {
 	},
 
 
-	timerLogStart() {
+	timerMark() {
 		splittedDate = Date().split(' ')
-		dayWeek = splittedDate[0] == 'Sun' ? 'Sunday' : splittedDate[0] == 'Mon' ? 'Monday' : splittedDate[0] == 'Tue' ? 'Tuesday' : splittedDate[0] == 'Wed' ? 'Wednesday' : splittedDate[0] == 'Thu' ? 'Thursday' : splittedDate[0] == 'Fri' ? 'Friday' : 'Saturday'
+		dayWeek = splittedDate[0] == 'Sun' ? 'Sunday' : splittedDate[0] == 'Mon' ? 'Monday' : splittedDate[0] == 'Tue' ? 'Tuesday' : splittedDate[0] == 'Wed' ? 'Wednesday' : splittedDate[0] == 'Thu' ? 'Thursday' : splittedDate[0] == 'Fri' ? 'Friday' : splittedDate[0] == 'Sat' ? 'Saturday' : splittedDate[0]
+		month = splittedDate[1] == 'Jan' ? 'January' : splittedDate[1] == 'Feb' ? 'February' : splittedDate[1] == 'Mar' ? 'March' : splittedDate[1] == 'Apr' ? 'April' : splittedDate[1] == 'May' ? 'May' : splittedDate[1] == 'Jun' ? 'June' : splittedDate[1] == 'Jul' ? 'July' : splittedDate[1] == 'Aug' ? 'August' : splittedDate[1] == 'Sep' ? 'September' : splittedDate[1] == 'Oct' ? 'October' : splittedDate[1] == 'Nov' ? 'November' : splittedDate[1] == 'Dec' ? 'December' : splittedDate[1]
 		ordinal = splittedDate[2] == 1 ? 'st' : splittedDate[2] == 2 ? 'nd' : splittedDate[2] == 3 ? 'rd' : splittedDate[2] >= 4 ? 'th' : '';
 		ampm = splittedDate[4].split(':')[0] >= 12 ? ' pm' : ' am'
-		startTimeLog = dayWeek + ', ' + splittedDate[1] + ' ' + splittedDate[2] + ordinal + ' ' + splittedDate[3] + ', ' + splittedDate[4] + ampm;
-	},
-
-	timerLogEnd() {	
-		splittedDate = Date().split(' ')
-		dayWeek = splittedDate[0] == 'Sun' ? 'Sunday' : splittedDate[0] == 'Mon' ? 'Monday' : splittedDate[0] == 'Tue' ? 'Tuesday' : splittedDate[0] == 'Wed' ? 'Wednesday' : splittedDate[0] == 'Thu' ? 'Thursday' : splittedDate[0] == 'Fri' ? 'Friday' : 'Saturday'
-		ordinal = splittedDate[2] == 1 ? 'st' : splittedDate[2] == 2 ? 'nd' : splittedDate[2] == 3 ? 'rd' : splittedDate[2] >= 4 ? 'th' : '';
-		ampm = splittedDate[4].split(':')[0] >= 12 ? ' pm' : ' am'
-		endTimeLog = dayWeek + ', ' + splittedDate[1] + ' ' + splittedDate[2] + ordinal + ' ' + splittedDate[3] + ', ' + splittedDate[4] + ampm;
+		TimeLog = dayWeek + ', ' + month + ' ' + splittedDate[2] + ordinal + ' ' + splittedDate[3] + ', ' + splittedDate[4] + ampm;
+		return TimeLog
 	}
 }
 
 var logItems = Storage.get('logs')
 var newLog,
 arrayLogs
+
+var logContainerLocate = document.querySelector('.logTable tbody')
 
 const managementStorageLog = {
 	addLog(){
@@ -79,16 +76,20 @@ const managementStorageLog = {
 
 			logItems = Storage.get('logs')
 			app.refreshLogs()
+			pomodoroTracker.pomodoroCounter()
+			document.getElementById('cButton').disabled = false
 	},
 
-	cleanLog(){
+	clearLog(){
 		arrayLogs = []
 		Storage.set('logs', arrayLogs)
+		logContainerLocate.innerHTML = `
+			<tbody>nothing logged yet</tbody>
+		`;
+		pomodoroTracker.pomodoroCounter()
+		document.getElementById('cButton').disabled = true
 	}
 }
-
-
-var logContainerLocate = document.querySelector('.logTable tbody')
 
 const app = {
 
@@ -112,18 +113,66 @@ const app = {
 			<th>End time</th>
 			<th>Description</th>
 		`;
-		for (i=0; i < logItems.length; i++){
-			app.createLogs(i)
+		if (logItems !== null){
+			for (var i=0; i < logItems.length; i++){
+				app.createLogs(i)
+			}
+		}
+	}
+}
+//Contagem de Pomodoros concluidos
+var pomodoros
+var goalsContainerLocate = document.querySelector('.pomoGoalsContainer')
+
+const pomodoroTracker = {
+	pomodoroCounter(){
+		pomodoros = 0
+		if (Storage.get('logs') == null) {
+			pomodoroTracker.addGoals()
+		}
+		else{		
+			for (var i=0; i < Storage.get('logs').length; i++) {
+				if (Storage.get('logs')[i].Session == 'Pomodoro' && Storage.get('logs')[i].Ends.split(',')[1] == inputLog.timerMark().split(',')[1]) {
+					pomodoros++
+				}
+			}
+			pomodoroTracker.addGoals()
+		}
+	},
+
+	addGoals(){
+		goalsContainerLocate.innerHTML = ''
+		for (var i = 0; i < Number(Storage.get('dailyGoal')); i++) {		
+			var createDiv = document.createElement("div");
+			goalsContainerLocate.appendChild(createDiv).classList.add('pomoGoalsCircle');
+		}
+		pomodoroTracker.completedGoals()
+	},
+
+	completedGoals(){
+		for (var i=0; i < pomodoros; i++){
+			selectCompleted = goalsContainerLocate.children
+			selectCompleted[i].classList.add('full')
 		}
 	}
 }
 
-if (logItems != null) {
+
+
+if (logItems == null || logItems == undefined || logItems.length == 0) {
+	console.log('clear')
+	managementStorageLog.clearLog()	
+}
+else {
+	console.log('refresh')
 	app.refreshLogs()
+	pomodoroTracker.pomodoroCounter()	
 }
 
+pomodoroTracker.pomodoroCounter()
+
 //Definir Configurações
-function setConfigs() {
+function setConfigs(value) {
 
 	timerIndication = document.getElementById('chkbox1').checked;
 	Storage.set('timerIndication', timerIndication);
@@ -154,36 +203,14 @@ function setConfigs() {
 
 	Storage.set('userConfig', 'ready');
 
-	(settingsContainer());
-	(reset());
+	if (value !== 'noOpen') {
+		(settingsContainer());
+	}
 }	
 
 if (Storage.get('userConfig') != "ready"){
-	(setConfigs());
-	document.querySelector('.overlay-box').classList.toggle('active');
+	setConfigs('noOpen')
 }
-//----- Faq -----
-function faqContainer(){
-	document.querySelector('.overlay-box2').classList.toggle('active');
-	setTimeout(function() {document.querySelector('.content-box2').classList.toggle('transition');}, 0)
-}
-
-function closeFaqContainer(){
-	document.querySelector('.content-box2').classList.toggle('transition')
-	setTimeout(function() {document.querySelector('.overlay-box2').classList.toggle('active');}, 700);
-}
-
-//----- Log -----
-function logContainer(){
-	document.querySelector('.overlay-box3').classList.toggle('active');
-	setTimeout(function() {document.querySelector('.content-box3').classList.toggle('transition');}, 0)
-}
-
-function closeLogContainer(){
-	document.querySelector('.content-box3').classList.toggle('transition')
-	setTimeout(function() {document.querySelector('.overlay-box3').classList.toggle('active');}, 700);
-}
-
 
 function resetConfigs() {
 	document.getElementById('chkbox1').checked = true;
@@ -206,6 +233,59 @@ function resetConfigs() {
 
 	(setConfigs());
 }
+
+function syncConfigContainer(){
+	document.getElementById('chkbox1').checked = Storage.get('timerIndication');
+
+	document.getElementById('chkbox2').checked = Storage.get('notifications');
+
+	document.getElementById('chkbox3').checked = Storage.get('autoStartSequence');	
+
+	document.getElementById('inputNumber1').value = Storage.get('dailyGoal');
+
+	document.getElementById('option1').value = Storage.get('soundOption');
+
+	document.getElementById('option2').value = Storage.get('volume');
+
+	document.getElementById('inputNumber2').value = Storage.get('pomodoroTime');
+
+	document.getElementById('inputNumber3').value = Storage.get('shortBreakTime');
+
+	document.getElementById('inputNumber4').value = Storage.get('longBreakTime');
+}
+
+syncConfigContainer()
+
+//----- Faq -----
+function faqContainer(){
+	document.querySelector('.overlay-box2').classList.toggle('active')
+	document.getElementById('mainContent').classList.add('fixedSection')
+	setTimeout(function() {document.querySelector('.content-box2').classList.toggle('transition');}, 0)
+}
+
+function closeFaqContainer(){
+	document.querySelector('.content-box2').classList.toggle('transition')
+	setTimeout(function() {document.getElementById('mainContent').classList.remove('fixedSection');}, 500)
+	setTimeout(function() {document.querySelector('.overlay-box2').classList.toggle('active');}, 700)
+}
+
+// ----------------- Transição , display none depois de opacity
+
+//----- Log -----
+function logContainer(){
+	document.querySelector('.overlay-box3').classList.toggle('active')
+	document.getElementById('mainContent').classList.add('fixedSection')
+	setTimeout(function() {document.querySelector('.content-box3').classList.toggle('transition');}, 0)
+}
+
+function closeLogContainer(){
+	document.querySelector('.content-box3').classList.toggle('transition')
+	setTimeout(function() {document.getElementById('mainContent').classList.remove('fixedSection');}, 500)
+	setTimeout(function() {document.querySelector('.overlay-box3').classList.toggle('active');}, 700)
+}
+
+
+
 // ----- Testar Alarme -----
 
 var soundSelectedTest;
@@ -393,11 +473,13 @@ function numbersTime() {
 
 function activeSettingsContainer(){
 	document.querySelector('.overlay-box').classList.toggle('active');
+	document.getElementById('mainContent').classList.add('fixedSection')
 	setTimeout(function() {document.querySelector('.content-box').classList.toggle('transition')}, 0);
 }
 
 function settingsContainer() {
 	document.querySelector('.content-box').classList.toggle('transition')
+	setTimeout(function() {document.getElementById('mainContent').classList.remove('fixedSection');}, 500)
 	setTimeout(function() {document.querySelector('.overlay-box').classList.toggle('active');}, 700);
 
 	document.getElementById('chkbox1').checked = Storage.get('timerIndication');
@@ -417,48 +499,66 @@ function settingsContainer() {
 	document.getElementById('inputNumber3').value = Storage.get('shortBreakTime');
 
 	document.getElementById('inputNumber4').value = Storage.get('longBreakTime');
+
+	app.refreshLogs()
+	pomodoroTracker.pomodoroCounter()
 }
 
+var isWorking = 0;
+
 function  timer() {
-	setTimeout(timerMath, 1000);
-	function timerMath() {
-		if (turn == 1) {
-			if (min + sec != 0) {
+	if (inputLog.sessionRequest() == undefined) {
+		inputLog.sessionRequest()
+		startTimeLog = inputLog.timerMark()
+	}
 
-				sec -= 1;
+	if (isWorking == 0) {
+		isWorking = 1
+		setTimeout(timerMath, 1000);
+		function timerMath() {
+			isWorking = 0
+			if (turn == 1) {
+				if (min + sec != 0) {
 
-				if (sec < 0) {
-					sec = 59;
-					min -= 1;
-				}
+					sec -= 1;
 
-				//formatação dos numeros
-				(numbersTime());
-						
-				//Display
-				document.getElementById('display').innerHTML = minutes + ":" + seconds;
-				
-				if (Storage.get("timerIndication") == true) {
-					document.getElementById('titleDisplay').innerHTML = "(" + minutes + ":" + seconds + ")" + " " + "TomatoTimer";
+					if (sec < 0) {
+						sec = 59;
+						min -= 1;
+					}
+
+					//formatação dos numeros
+					(numbersTime());
+							
+					//Display
+					document.getElementById('display').innerHTML = minutes + ":" + seconds;
+					
+					if (Storage.get("timerIndication") == true) {
+						document.getElementById('titleDisplay').innerHTML = "(" + minutes + ":" + seconds + ")" + " " + "TomatoTimer";
+					}
+					else {
+						document.getElementById('titleDisplay').innerHTML = "TomatoTimer";
+					}
+
+					(timer());	
 				}
 				else {
 					document.getElementById('titleDisplay').innerHTML = "TomatoTimer";
-				}
+					(alarm());
 
-				(timer());	
-			}
-			else {
-				document.getElementById('titleDisplay').innerHTML = "TomatoTimer";
-				(alarm());
-				turn = 0;
-				if (pomodoroTurn == 1){
-					(browserNotificationPomodoro())
-				}
-				if (shortBreakTurn == 1 || longBreakTurn ==1){
-					(browserNotificationBreak())
-				}
-				if (Storage.get('autoStartSequence') == true) {
-					timerCycle()
+					endTimeLog = inputLog.timerMark()
+					managementStorageLog.addLog()
+
+					turn = 0;
+					if (pomodoroTurn == 1){
+						(browserNotificationPomodoro())
+					}
+					if (shortBreakTurn == 1 || longBreakTurn ==1){
+						(browserNotificationBreak())
+					}
+					if (Storage.get('autoStartSequence') == true) {
+						timerCycle()
+					}
 				}
 			}
 		}
@@ -468,8 +568,9 @@ function  timer() {
 function timerVerify() {
 	try {
 		if (timerTurn == 0) {
-			timerTurn = 1;
-			(timer());
+			timerTurn = 1
+			timer()
+
 		}
 		else {	
 			(timer());
@@ -496,6 +597,9 @@ function pomodoro() {
 	longBreakTurn = 0;
 
 	(timerVerify());
+
+	inputLog.sessionRequest()
+	startTimeLog = inputLog.timerMark()
 }
 
 function shortBreak(){
@@ -516,6 +620,9 @@ function shortBreak(){
 	longBreakTurn = 0;
 
 	(timerVerify());
+
+	inputLog.sessionRequest()
+	startTimeLog = inputLog.timerMark()
 }
 
 function longBreak(){
@@ -536,6 +643,9 @@ function longBreak(){
 	longBreakTurn = 1;
 	
 	(timerVerify());
+
+	inputLog.sessionRequest()
+	startTimeLog = inputLog.timerMark()
 }
 
 var countTimerCycle = 0;
@@ -570,20 +680,66 @@ function timerCycle() {
 }
 
 
+// Atalhos de Teclado
+window.addEventListener('keydown', (e) => {
+	if(e.keyCode == 32 && e.target == document.body) {
+    	e.preventDefault();
+  	}
+	if (!e.repeat) {
+		switch(e.key){
+			case 'P' :
+				pomodoro()
+				break;
+			case 'S' :
+				shortBreak()
+				break;
+			case 'L' :
+				longBreak()
+				break;
+			case 'R' :
+				reset()
+				break;
+			case ' ' :
+				if (turn == 1) {
+					turnOff()
+				}
+				else {
+					turnOn()
+				}
+				console.log('Space')
+				break;
+			default: break;
+		}
+	}
+	else {
+		switch(e.key){
+			case 'P' :
+				pomodoro()
+				break;
+			case 'S' :
+				shortBreak()
+				break;
+			case 'L' :
+				longBreak()
+				break;
+			case 'R' :
+				reset()
+				break;
+			case ' ' :
+				break;
+			default: break;
+		}
+	}
+})
 
-
-
-//Corrigir bugs (mais dificil kkk).
+//linha 270 terminar
 
 //Adicionar atalho de teclado
 
-//Fazer a contagem se a meta foi alcançada (obs: cada pomodoro executado equivale a 1 dailyGoal e fazer depois de terminar o log)
-
-//Arrumar CSS do log(caixa de descrição passando da tela)
-
-//Inserir o código para marcação dos inputs 
+//Salvar descrição dos logs quando atualizar pagina
 
 //Possivel modificação de design https://tomatoi.st/1j8pssa
 
 //Ir salvando as versões no gitHub (O problema é não esquecer de fazer isso).
+
 //Fazer estilo para mobile (Mais chato)

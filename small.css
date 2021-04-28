@@ -1,8 +1,9 @@
-@media only screen and (min-width: 769px){
+@media only screen and (max-width: 768px), (max-device-width: 768px){
 
 body{
 	margin: 0;
 	padding: 0;
+	min-width: 100px;
 	background-color: white;
 	overflow-y: auto;
 	font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
@@ -10,9 +11,13 @@ body{
 
 .fixedSection{
 	position: fixed;
-	width: 100%;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+.sectionTransition{
+	transition: 0.5s;
+	opacity: 0;
 }
 
 .headerContainer{
@@ -23,22 +28,17 @@ body{
 }
 
 .row{
-	width: 940px;
-	max-width: 100%;
-	min-width: 768px;
 	margin: 0 auto;
 }
 
 .headerAlign{
-	width: 940px;
-	max-width: 100%;
-	display: flex;
-	margin: 0 auto;
+	width: auto;
+	height: auto;
+	display: block;
 	padding: 0;
 }
 
 .titleContainer{
-	width: 25%;
 	padding: 0 15px 0 15px;
 }
 
@@ -46,14 +46,17 @@ body{
 	font-size: 37px;
 	color: #222222;
 	margin: 14px 0 14px 0;
+	text-align: center;
 }
 
 .optionsContainer{
-	width: 75%;
+	display: flex;
+	width: auto;
 	padding: 0 15px 0 15px;
 }
 
-.optionsContainer input{
+.optionsContainer input,
+.optionsContainer ul li div{
 	color: #e6e6e6;
 	background-color: #4d4d4d;
 	border: solid 1px #333333;
@@ -70,17 +73,21 @@ body{
 	margin-bottom: auto;
 }
 
-#resolutionLow{
+#resolutionHigh{
 	display: none;
 }
 
 .optionsAlign{
+	display: block;
+	width: 100%;
 	margin-top: 20px;
 	margin-bottom: auto;
+	padding: 0;
 }
 
 .optionsAlign li{
 	display: block;
+	height: 40px;
 }
 
 .optionsAlign li img{
@@ -91,12 +98,14 @@ body{
 	background-color: rgb(0, 0, 0, 0.1);
 }
 
-.optionsAlign li input{
+.optionsAlign li input,
+.optionsAlign li div{
 	font-size: 14px;
 	font-weight: normal;
 	font-family: sans-serif;
 	padding: 0 20px;
 	line-height: 38px;
+	width: 100%;
 }
 
 .rightAlign{
@@ -115,7 +124,7 @@ body{
 	font-size: 14px;
 	font-weight: bold;
 	color: white;
-	padding: 10px 20px 11px;
+	padding: 10px 5px 11px;
 }
 
 .button:hover{
@@ -136,10 +145,17 @@ body{
 	background-color: #2284a1;
 }
 
-.buttonsGroup,
-.buttonsGroup2{
+.buttonsGroup{
 	display: flex;
-	width: 83.3%;
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0;
+}
+
+.buttonsGroup2{
+	display: block;
+	width: 90%;
 	margin-left: auto;
 	margin-right: auto;
 	padding: 0;
@@ -147,7 +163,7 @@ body{
 
 .mainButtonsAlign{
 	margin: 0 auto 0 auto;
-	display: flex;
+	display: block;
 }
 
 .row h1{
@@ -174,6 +190,7 @@ body{
 .startButton{
 	background-color: #5da423;
 	border: 1px solid #396516;
+	width: 100%;
 }
 
 .startButton:hover{
@@ -183,6 +200,7 @@ body{
 .stopButton{
 	background-color: #c60f13;
 	border: 1px solid #7f0a0c;
+	width: 100%;
 }
 
 .stopButton:hover{
@@ -193,6 +211,8 @@ body{
 	background-color: #e9e9e9;
 	border: 1px solid #c3c3c3;
 	color: #1d1d1d;
+	width: 100%;
+	margin-bottom: 2rem;
 }
 
 .resetButton:hover{
@@ -200,22 +220,18 @@ body{
 }
 
 .helpBox{
-	display: flex;
+	display: block;
 	justify-content: center;
-	width: 80%;
-	margin-right: auto;
-	margin-left: auto;
+	width: auto;
 }
 
 .shortcuts,
 .settingsText{
 	display: block;
+	width: 80%;
 	background: #f2f2f2;
-	width: 33.3%;
-	height: max-content;
+	margin: 0 5% 10% 5%;
 	padding: 20px;
-	margin-left: 15px;
-	margin-right: 15px;
 	border: solid 1px #e6e6e6;
 }
 
@@ -274,7 +290,6 @@ body{
 .overlay-box2.active,
 .overlay-box3.active{
 	display: flex;
-	min-height: 52rem;
 }
 
 .content-outside{
@@ -289,35 +304,59 @@ body{
 .content-box,
 .content-box2,
 .content-box3{
-	margin-top: 6rem;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: auto;
-	margin-block-start: -120%;
 	transition: 0.7s;
-	min-width: 335px;
-	width: 36%;
-	height: 200%;
+	margin-top: -1200px;
+	margin-bottom: auto;
+	min-width: 320px;
+	width: 80%;
+	height: auto;
 	background-color: white;
 	z-index: 5;
-	padding: 30px;
+	padding: 30px 0 30px 0;
+	bottom: 0;
 }
+
+.content-box :is(h2, h3, p),
+.content-box2 :is(h2, h3, p),
+.content-box3 :is(h2, .pomoGoals){
+	padding-right: 30px;
+	padding-left: 30px;
+}
+
+.content-box2 li{
+	padding-right: 30px;
+}
+
 
 .content-box3{
 	width: 55%;
 }
 
-.content-box3 .overflowTable{
-	overflow-y: auto;
-	max-height: 22rem;
+.content-box3 .logtable{
+	width: auto;
 }
+
+.content-box3 .overflowTable{
+	overflow-x: auto;
+	overflow-y: auto;
+	margin-right: 30px;
+	margin-left: 30px;
+	max-height: 450px;
+}
+
+.content-box3 .button{
+	margin-right: 30px;
+	margin-left: 30px;
+}
+
 
 .content-box.transition,
 .content-box2.transition,
 .content-box3.transition{
+	margin-top: 0 !important; 
 	transition: 0.5s;
 	transition-timing-function: linear;
-	margin-block-start: 100px;
+	
 }
 
 .content-box .closeContainer,
@@ -326,11 +365,11 @@ body{
 	cursor: pointer;
 	color: #aaa;
 	margin-top: -30px ;
-	margin-right: -20px;
+	margin-right: 5px;
 	font-weight: bold;
 	font-family: cursive;
 	text-shadow: 0 -1px 1px rgb(0 0 0 / 60%);
-	font-size: 18px;
+	font-size: 1.5rem;
 }
 
 .content-box3 h2{
@@ -366,20 +405,30 @@ body{
 }
 
 .content-box select{
-	width: 100%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 85%;
 	margin-bottom: 14px;
 	cursor: pointer;
 }
 
 .content-box .columnFlex{
 	display: flex;
+	width: 85%;
 	margin-bottom: 10px;
+	margin-right: auto;
+	margin-left: auto;
 }
 
 .content-box .columnFlex .columnBlock{
 	display: block;
-	padding-left: 15px;
 	padding-right: 15px;
+}
+
+.content-box .inputButton{
+	display: block;
+	text-align: center;
 }
 
 .content-box .inputButton input{

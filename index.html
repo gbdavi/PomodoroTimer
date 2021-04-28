@@ -6,7 +6,10 @@
 	<title id="titleDisplay">TomatoTimer</title>
 	<script src="./timer_fixes/HackTimer.js"></script>
 	<script src="./timer_fixes/HackTimerWorker.js"></script>
-	<link rel="stylesheet" type="text/css" href="./styles.css">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" name="viewport" type="text/css" href="styles.css">
+	<link rel="stylesheet" name="viewport" type="text/css" href="small.css">
 
 	<audio id="Alarm80s"><source src="./sounds/80sAlarm.mp3" type="audio/mpeg"></audio>
 	<audio id="alarmclock"><source src="./sounds/alarmclock.mp3" type="audio/mpeg"></audio>
@@ -16,49 +19,75 @@
 	
 </head>
 <body>
-	<div class="headerContainer">
-		<ul class="headerAlign">
-			<div class="titleContainer">
-				<h2>TomatoTimer</h2>
-			</div>
-			<div class="optionsContainer">
-				<ul class="optionsAlign">	
-					<li><img src="settings.ico" width="28px" height="28px" class="rightAlign" onclick="activeSettingsContainer()"></li>
-					<li><input type="button" class="rightAlign" name="" value="FAQ" onclick="faqContainer()"></li>
-					<li><input type="button" class="rightAlign" name="" value="Log" onclick="logContainer()"></li>
-				</ul>
-			</div>
-		</ul>
-	</div>
-	<div class="row">
-		<ul class="buttonsGroup">
-			<input type="button" class="button" id="idPomodoro" name="Pomodoro" value="Pomodoro" onclick="pomodoro()">
-			<input type="button" class="button" id="idShortBreak" name="ShortBreak" value="Short Break" onclick="shortBreak()">
-			<input type="button" class="button" id="idLongBreak" name="LongBreak" value="Long Break" onclick="longBreak()">
-		</ul>
-	</div>
-	<br>
-	<div class="row">
-		<h1 id="display"></h1>
-	</div>
-	<br>
-	<br>
-	<br>
-	<div class="row">
-		<div class="buttonsGroup">
-			<div class="mainButtonsAlign">
-				<div class="buttonPadding">
-					<input type="button" class="startButton functionButtonStyle" name="Start" value="Start" onclick="turnOn()">
+	<section id="mainContent" class="">
+		<div class="headerContainer">
+			<ul class="headerAlign">
+				<div class="titleContainer">
+					<h2>TomatoTimer</h2>
 				</div>
-				<div class="buttonPadding">
-					<input type="button" class="stopButton functionButtonStyle" name="Stop" value="Stop" onclick="turnOff()">
+				<div class="optionsContainer">
+					<ul class="optionsAlign">	
+						<li><input type="button" name="" value="Settings" id="resolutionLow" class="rightAlign" name="" onclick="activeSettingsContainer()">
+							<img id="resolutionHigh" src="settings.ico" width="28px" height="28px" class="rightAlign" onclick="activeSettingsContainer()">
+						</li>
+						<li><input type="button" class="rightAlign" name="" value="FAQ" onclick="faqContainer()"></li>
+						<li><input type="button" class="rightAlign" name="" value="Log" onclick="logContainer()"></li>
+					</ul>
 				</div>
-				<div class="buttonPadding">
-					<input type="button" class="resetButton functionButtonStyle" name="Reset" value="Reset" onclick="reset()">
+			</ul>
+		</div>
+		<div class="row">
+			<ul class="buttonsGroup">
+				<input type="button" class="button" id="idPomodoro" name="Pomodoro" value="Pomodoro" onclick="pomodoro()">
+				<input type="button" class="button" id="idShortBreak" name="ShortBreak" value="Short Break" onclick="shortBreak()">
+				<input type="button" class="button" id="idLongBreak" name="LongBreak" value="Long Break" onclick="longBreak()">
+			</ul>
+		</div>
+		<br>
+		<div class="row">
+			<h1 id="display"></h1>
+		</div>
+		<br>
+		<br>
+		<br>
+		<div class="row">
+			<div class="buttonsGroup2">
+				<div class="mainButtonsAlign">
+					<div class="buttonPadding">
+						<input type="button" class="startButton functionButtonStyle" name="Start" value="Start" onclick="turnOn()">
+					</div>
+					<div class="buttonPadding">
+						<input type="button" class="stopButton functionButtonStyle" name="Stop" value="Stop" onclick="turnOff()">
+					</div>
+					<div class="buttonPadding">
+						<input type="button" class="resetButton functionButtonStyle" name="Reset" value="Reset" onclick="reset()">
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+		<br>
+		<br>
+		<br>
+		<div class="helpBox">
+			<div class="shortcuts">
+				<h5>Keyboard Shortcuts</h5>
+				<ul>
+					<li><strong>SPACE</strong>   Start or Stop the timer</li>
+					<li><strong>SHIFT + P</strong>  Pomodoro</li>
+					<li><strong>SHIFT + S</strong>  Short Break</li>
+					<li><strong>SHIFT + L</strong>  Long Break</li>
+					<li><strong>SHIFT + R</strong>  Reset Timer</li>
+				</ul>
+			</div>
+			<div class="settingsText">
+				<h5>Settings</h5>
+				<p>You can set custom times, audio tone and volume via Settings.</p>
+			</div>
+		</div>
+		<br>
+		<br>
+		<br>
+	</section>
 	<!-- ------ settingsBoard ------ -->
 	<section>
 		<div class="overlay-box">
@@ -170,48 +199,25 @@
 				<div class="pomoGoals margin">
 					<p>Pomodoro goal tracker:</p>
 					<div class="pomoGoalsContainer">
-						<div class="pomoGoalsCircle full"></div>
-						<div class="pomoGoalsCircle"></div>
-						<div class="pomoGoalsCircle"></div>
-						<div class="pomoGoalsCircle"></div>
-						<div class="pomoGoalsCircle"></div>
-						<div class="pomoGoalsCircle"></div>
-						<div class="pomoGoalsCircle"></div>
-						<div class="pomoGoalsCircle"></div>
-						<div class="pomoGoalsCircle"></div>
-						<div class="pomoGoalsCircle"></div>
-						<div class="pomoGoalsCircle"></div>
-						<div class="pomoGoalsCircle"></div>
-						<div class="pomoGoalsCircle"></div>
-						<div class="pomoGoalsCircle"></div>
-						<div class="pomoGoalsCircle"></div>
-						<div class="pomoGoalsCircle"></div>
-						<div class="pomoGoalsCircle"></div>
-						<div class="pomoGoalsCircle"></div>
-						<div class="pomoGoalsCircle"></div>
-						<div class="pomoGoalsCircle"></div>
-						<div class="pomoGoalsCircle"></div>
+						
 					</div>
 				</div>
 				<div class="margin">
-					<input type="button" value="Clear pomodoro's done today" class="button">
 				</div>
-				<table class="logTable">
-					<tbody>
-						<tr>
-							<th>Session</th>
-							<th>Start time</th>
-							<th>End time</th>
-							<th>Description</th>
-						</tr>
-						<tr>
-							<td>Pomodoro</td>
-							<td>Wednesday, April 7th 2021, 3:46:00 pm</td>
-							<td>Wednesday, April 7th 2021, 3:47:00 pm</td>
-							<td><input type="text" name=""></td>
-						</tr>
-					</tbody>
-				</table>
+				<div class="overflowTable">
+					<table class="logTable">
+						<tbody>
+							<tr>
+								<th>Session</th>
+								<th>Start time</th>
+								<th>End time</th>
+								<th>Description</th>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<br>
+				<input type="button" value="Clear timer log" class="button autoSize" id="cButton" onclick="managementStorageLog.clearLog()">
 			</div>
 			<div class="content-outside" onclick="closeLogContainer()"></div>
 		</div>
