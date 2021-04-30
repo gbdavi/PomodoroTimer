@@ -69,7 +69,7 @@ const managementStorageLog = {
 			arrayLogs = []
 		}
 
-			newLog = {Session: sessionLog, Starts: startTimeLog, Ends: endTimeLog}
+			newLog = {Session: sessionLog, Starts: startTimeLog, Ends: endTimeLog, Description: ''}
 
 			arrayLogs.push(newLog)
 			Storage.set('logs', arrayLogs)
@@ -88,6 +88,25 @@ const managementStorageLog = {
 		`;
 		pomodoroTracker.pomodoroCounter()
 		document.getElementById('cButton').disabled = true
+	},
+	saveStatsDescription(){
+		console.log('saving description')
+
+		inputsLocate = document.querySelectorAll('.logTable td input')
+		logItems = Storage.get('logs')
+		arrayLogsDescription = []
+
+		for (var i = 0; logItems.length > i; i++){			
+			itemSelected = logItems[i]
+			newLog =  {Session: itemSelected.Session, Starts: itemSelected.Starts, Ends: itemSelected.Ends,Description: inputsLocate[i].value}
+			arrayLogsDescription.push(newLog)
+
+			if (i+1 == logItems.length) {
+				Storage.set('logs', arrayLogsDescription)
+				console.log('description is Saved and Refreshed')
+			}
+			
+		}
 	}
 }
 
@@ -98,7 +117,7 @@ const app = {
 			<td>${logItems[i].Session}</td>
 			<td>${logItems[i].Starts}</td>
 			<td>${logItems[i].Ends}</td>
-			<td><input type="text" name=""></td>
+			<td><input type="text" name="" value="${logItems[i].Description}"></td>
 		`
 
 		const tr = document.createElement('tr')
@@ -203,6 +222,8 @@ function setConfigs(value) {
 
 	Storage.set('userConfig', 'ready');
 
+	reset()
+
 	if (value !== 'noOpen') {
 		(settingsContainer());
 	}
@@ -256,6 +277,42 @@ function syncConfigContainer(){
 
 syncConfigContainer()
 
+//----- Configs Container -----
+
+function activeSettingsContainer(){
+	document.querySelector('.overlay-box').classList.toggle('active');
+	document.getElementById('mainContent').classList.add('fixedSection')
+	setTimeout(function() {document.querySelector('.content-box').classList.toggle('transition')}, 0);
+}
+
+function settingsContainer() {
+	document.querySelector('.content-box').classList.toggle('transition')
+	setTimeout(function() {document.getElementById('mainContent').classList.remove('fixedSection');}, 500)
+	setTimeout(function() {document.querySelector('.overlay-box').classList.toggle('active');}, 700);
+
+	document.getElementById('chkbox1').checked = Storage.get('timerIndication');
+
+	document.getElementById('chkbox2').checked = Storage.get('notifications');
+
+	document.getElementById('chkbox3').checked = Storage.get('autoStartSequence');
+
+	document.getElementById('inputNumber1').value = Storage.get('dailyGoal');
+
+	document.getElementById('option1').value = Storage.get('soundOption');
+
+	document.getElementById('option2').value = Storage.get('volume');
+
+	document.getElementById('inputNumber2').value = Storage.get('pomodoroTime');
+
+	document.getElementById('inputNumber3').value = Storage.get('shortBreakTime');
+
+	document.getElementById('inputNumber4').value = Storage.get('longBreakTime');
+
+	app.refreshLogs()
+	pomodoroTracker.pomodoroCounter()
+}
+
+
 //----- Faq -----
 function faqContainer(){
 	document.querySelector('.overlay-box2').classList.toggle('active')
@@ -269,9 +326,8 @@ function closeFaqContainer(){
 	setTimeout(function() {document.querySelector('.overlay-box2').classList.toggle('active');}, 700)
 }
 
-// ----------------- Transição , display none depois de opacity
-
 //----- Log -----
+
 function logContainer(){
 	document.querySelector('.overlay-box3').classList.toggle('active')
 	document.getElementById('mainContent').classList.add('fixedSection')
@@ -279,6 +335,7 @@ function logContainer(){
 }
 
 function closeLogContainer(){
+	managementStorageLog.saveStatsDescription()
 	document.querySelector('.content-box3').classList.toggle('transition')
 	setTimeout(function() {document.getElementById('mainContent').classList.remove('fixedSection');}, 500)
 	setTimeout(function() {document.querySelector('.overlay-box3').classList.toggle('active');}, 700)
@@ -469,39 +526,6 @@ function numbersTime() {
 	else {
 		seconds = sec;
 	}
-}
-
-function activeSettingsContainer(){
-	document.querySelector('.overlay-box').classList.toggle('active');
-	document.getElementById('mainContent').classList.add('fixedSection')
-	setTimeout(function() {document.querySelector('.content-box').classList.toggle('transition')}, 0);
-}
-
-function settingsContainer() {
-	document.querySelector('.content-box').classList.toggle('transition')
-	setTimeout(function() {document.getElementById('mainContent').classList.remove('fixedSection');}, 500)
-	setTimeout(function() {document.querySelector('.overlay-box').classList.toggle('active');}, 700);
-
-	document.getElementById('chkbox1').checked = Storage.get('timerIndication');
-
-	document.getElementById('chkbox2').checked = Storage.get('notifications');
-
-	document.getElementById('chkbox3').checked = Storage.get('autoStartSequence');
-
-	document.getElementById('inputNumber1').value = Storage.get('dailyGoal');
-
-	document.getElementById('option1').value = Storage.get('soundOption');
-
-	document.getElementById('option2').value = Storage.get('volume');
-
-	document.getElementById('inputNumber2').value = Storage.get('pomodoroTime');
-
-	document.getElementById('inputNumber3').value = Storage.get('shortBreakTime');
-
-	document.getElementById('inputNumber4').value = Storage.get('longBreakTime');
-
-	app.refreshLogs()
-	pomodoroTracker.pomodoroCounter()
 }
 
 var isWorking = 0;
